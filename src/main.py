@@ -5,8 +5,12 @@ import yaml
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
+from logger import setup_logger
+
 PROTECTED_DIR = "protected"
-CONFIG_FILE = "config.yaml"
+CONFIG_FILE = "config/policy.yaml"
+
+logger = setup_logger()
 
 
 def load_policy():
@@ -29,18 +33,18 @@ class SentinelHandler(FileSystemEventHandler):
 
         filename = os.path.basename(event.src_path)
 
-        print(f"[+] Detected: {filename}")
+        logger.info(f"Detected new file: {filename}")
 
         if filename not in ALLOWED_FILES:
 
-            print(f"[!] Unauthorized file: {filename}")
+            logger.warning(f"Unauthorized file detected: {filename}")
 
             os.remove(event.src_path)
 
-            print(f"[-] Deleted: {filename}")
+            logger.warning(f"Deleted unauthorized file: {filename}")
 
         else:
-            print(f"[✓] Allowed file: {filename}")
+            logger.info(f"Allowed file detected: {filename}")
 
 
 if __name__ == "__main__":
@@ -53,13 +57,16 @@ if __name__ == "__main__":
 
     observer.start()
 
-    print("[SentinelFS] Monitoring started...")
+    logger.info("SentinelFS monitoring started")
 
     try:
         while True:
             time.sleep(1)
 
     except KeyboardInterrupt:
+
         observer.stop()
+
+        logger.info("SentinelFS stopped")
 
     observer.join()

@@ -18,6 +18,7 @@ The project is designed to explore:
 - Automatic file removal
 - Whitelist-based enforcement
 - Linux inotify integration via watchdog
+- YAML-based policy configuration
 
 ---
 
@@ -40,10 +41,20 @@ Unauthorized File Removal
 ```text
 sentinelfs/
 ├── src/
+│   ├── main.py
+│   └── logger.py
+│
 ├── config/
-├── logs/
-├── tests/
+│   └── policy.yaml
+│
 ├── protected/
+│   └── allowed.txt
+│
+├── logs/
+│   └── sentinelfs.log
+│
+├── tests/
+│
 ├── requirements.txt
 ├── README.md
 └── .gitignore
