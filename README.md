@@ -1,4 +1,4 @@
-# SentinelFS
+# sentinelFS
 
 SentinelFS is a Linux filesystem integrity enforcement tool that monitors protected directories and automatically removes unauthorized files in real time.
 
